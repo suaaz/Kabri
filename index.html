@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kabri FaunaSphere | Incredible Animal Facts, Groundbreaking News & Migration Odyssey</title>
+  <meta name="description" content="Discover mind-blowing animal facts, groundbreaking science news (elephant names, whale phonetics), play the Wild Guesser clue game, and explore global migration routes across geological zones.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦁</text></svg>">
+
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/leaflet-custom.css">
+</head>
+<body>
+
+  <!-- ========================================================
+       TOP NAVBAR
+  ======================================================== -->
+  <header class="site-navbar">
+    <div class="container nav-container">
+      <a href="#" class="nav-brand">
+        <span class="nav-logo-icon">🐾</span>
+        <span class="nav-brand-text">Kabri <span class="highlight">FaunaSphere</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#facts" class="nav-link">Animal Facts</a>
+        <a href="#news" class="nav-link">Groundbreaking News</a>
+        <a href="#game" class="nav-link">Wild Guesser Game</a>
+        <a href="#migration" class="nav-link">Migration Odyssey</a>
+        <a href="#geology" class="nav-link">Geological Zones</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="sound-toggle-btn" class="nav-btn" title="Toggle Sound FX">
+          🔊 <span class="nav-btn-text">Sound On</span>
+        </button>
+        <button id="theme-toggle-btn" class="theme-btn" title="Toggle Theme">
+          <span id="theme-icon">☀️</span>
+        </button>
+        <button id="mobile-nav-toggle" class="mobile-toggle" aria-label="Toggle Navigation">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-nav-drawer" class="mobile-nav-drawer">
+    <a href="#facts" class="mobile-nav-link">🐾 Animal Facts</a>
+    <a href="#news" class="mobile-nav-link">📰 Groundbreaking News</a>
+    <a href="#game" class="mobile-nav-link">🎮 Wild Guesser Game</a>
+    <a href="#migration" class="mobile-nav-link">🌍 Migration Odyssey</a>
+    <a href="#geology" class="mobile-nav-link">🏔️ Geological Zones</a>
+  </div>
+
+  <main>
+    <!-- ========================================================
+         HERO SECTION
+    ======================================================== -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-text-content">
+          <div class="hero-badge-pill">
+            <span>✨ Pure Zoological Wonder</span>
+          </div>
+          <h1 class="hero-title">
+            Where Nature’s <span class="hero-gradient-text">Wildest Marvels</span> Come Alive.
+          </h1>
+          <p class="hero-subtitle">
+            Dive into mind-bending animal biology, recent peer-reviewed discoveries (from elephant names to whale alphabets), challenge your instincts in the clue-based mystery game, and track the epic migrations uniting our planet's geological zones.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#game" class="btn-primary">
+              <span>🎮 Play Wild Guesser</span>
+            </a>
+            <a href="#migration" class="btn-secondary">
+              <span>🗺️ Explore Migration Map</span>
+            </a>
+          </div>
+
+          <div class="hero-soundbar">
+            <span class="soundbar-label">Instant Wildlife Audio:</span>
+            <button class="sound-pill" data-sound-call="chirp">🦅 Bird Chirp</button>
+            <button class="sound-pill" data-sound-call="sonar">🐬 Dolphin Sonar</button>
+            <button class="sound-pill" data-sound-call="chime">✨ Forest Chime</button>
+          </div>
+        </div>
+
+        <div class="hero-card-showcase">
+          <div class="hero-featured-card">
+            <div class="card-glowing-glow"></div>
+            <span class="hero-card-tag">🔥 Featured Biology Shock</span>
+            <h3>The 4,700°C Pistol Shrimp</h3>
+            <p>
+              When a pistol shrimp snaps its claw shut at 60 mph, the collapsing bubble creates temperatures hotter than the surface of the Sun and generates a flash of acoustic light (sonoluminescence)!
+            </p>
+            <a href="#facts" class="btn-secondary" style="width: 100%; justify-content: center;">
+              <span>Flip More Fact Cards →</span>
+            </a>
+          </div>
+
+          <div class="hero-floating-badge top-right">
+            <span>🦔 Wombats poop cubes!</span>
+          </div>
+          <div class="hero-floating-badge bottom-left">
+            <span>🕊️ 96,000 km Tern Odyssey</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         DAILY WILD MARVEL BANNER
+    ======================================================== -->
+    <section class="daily-fact-section">
+      <div class="container" id="daily-fact-container">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         STATS TICKER SECTION
+    ======================================================== -->
+    <section id="stats-ticker-section" class="stats-ticker-section">
+      <div class="container stats-grid">
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter-val" data-target="96000">0</span> km</div>
+          <div class="stat-desc">Arctic Tern's Annual Flight</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter-val" data-target="400">0</span>+ Years</div>
+          <div class="stat-desc">Greenland Shark Lifespan</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter-val" data-target="16">0</span> Bands</div>
+          <div class="stat-desc">Mantis Shrimp Color Receptors</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="counter-val" data-target="1500000">0</span>+</div>
+          <div class="stat-desc">Serengeti Wildebeest Nomads</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 1: ANIMAL FACTS HUB (3D FLIP CARDS)
+    ======================================================== -->
+    <section id="facts" class="facts-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Curated Zoology</span>
+          <h2 class="section-title">Mind-Blowing Animal Facts</h2>
+          <p class="section-subtitle">
+            Click on any card to flip it and unveil the evolutionary marvel and verified scientific truth behind nature's wildest oddities.
+          </p>
+        </div>
+
+        <div class="facts-toolbar">
+          <div class="facts-filter-row">
+            <div class="filter-pills-group" id="facts-category-filters">
+              <button class="category-btn active" data-category="all">🌟 All Facts</button>
+              <button class="category-btn" data-category="mind-blowing">🤯 Mind-Bending</button>
+              <button class="category-btn" data-category="superpowers">⚡ Superpowers</button>
+              <button class="category-btn" data-category="ocean">🌊 Deep Ocean</button>
+              <button class="category-btn" data-category="cute">🦦 Cute & Heartwarming</button>
+              <button class="category-btn" data-category="survival">❄️ Extreme Survival</button>
+              <button class="category-btn" data-category="intelligence">🧠 Intelligence</button>
+            </div>
+
+            <button class="btn-primary" id="btn-random-fact" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">
+              🎲 Surprise Fact!
+            </button>
+          </div>
+
+          <div class="facts-search-box">
+            <span>🔍</span>
+            <input type="text" id="facts-search-input" placeholder="Search by animal (e.g., axolotl, crow, otter)...">
+          </div>
+        </div>
+
+        <div class="facts-grid" id="facts-grid">
+          <!-- Populated by js/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 2: GROUNDBREAKING ANIMAL NEWS
+    ======================================================== -->
+    <section id="news" class="news-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Science & Discoveries</span>
+          <h2 class="section-title">Groundbreaking Animal News</h2>
+          <p class="section-subtitle">
+            Recent paradigm shifts published in leading scientific journals: AI decodes elephant names, sperm whale phonetic dialects, wild chimpanzee medicine, and historic conservation victories.
+          </p>
+        </div>
+
+        <div class="facts-toolbar" style="margin-bottom: 2rem;">
+          <div class="filter-pills-group" id="news-category-filters">
+            <button class="news-filter-btn active" data-category="all">All Discoveries</button>
+            <button class="news-filter-btn" data-category="AI">AI & Language</button>
+            <button class="news-filter-btn" data-category="Marine">Oceanic Cognition</button>
+            <button class="news-filter-btn" data-category="Medicine">Animal Medicine</button>
+            <button class="news-filter-btn" data-category="Conservation">Conservation Wins</button>
+          </div>
+        </div>
+
+        <div class="news-grid" id="news-grid">
+          <!-- Populated by js/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- News Reader Modal -->
+    <div id="news-reader-modal" class="modal-wrapper hidden">
+      <div class="modal-backdrop" id="modal-backdrop"></div>
+      <div class="modal-card">
+        <button class="modal-close-btn" id="modal-close-btn" title="Close reader">✕</button>
+        <div id="modal-content-body">
+          <!-- Populated when opening article -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SECTION 3: GUESS THE ANIMAL GAME ("WILD GUESSER")
+    ======================================================== -->
+    <section id="game" class="game-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Interactive Challenge</span>
+          <h2 class="section-title">Wild Guesser: Mystery Creature</h2>
+          <p class="section-subtitle">
+            Can you deduce the mystery animal before clues run out? Start with hard cryptic clues for 100 points, or unlock progressively easier hints at a point penalty!
+          </p>
+        </div>
+
+        <div class="game-console-card">
+          <!-- Game Scoreboard Bar -->
+          <div class="game-top-bar">
+            <div class="game-stats-badge-group">
+              <div class="game-stat-badge">
+                <span>Score:</span> <strong id="game-score-display">0</strong>
+              </div>
+              <div class="game-stat-badge">
+                <span>High:</span> <strong id="game-high-score-display">0</strong>
+              </div>
+              <div class="game-stat-badge" id="game-streak-display">
+                🔥 0
+              </div>
+              <div class="game-stat-badge">
+                <span id="game-lives-display">❤️❤️❤️</span>
+              </div>
+            </div>
+
+            <div class="game-stats-badge-group">
+              <span id="game-potential-points" class="game-potential-badge">+100 pts</span>
+              <span id="game-round-indicator" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">Creature 1 of 12</span>
+
+              <div class="game-mode-toggle">
+                <button class="mode-btn active" id="game-mode-choice">Multiple Choice</button>
+                <button class="mode-btn" id="game-mode-type">Type Guess</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Question Board -->
+          <div id="game-controls-card">
+            <div class="clues-grid">
+              <!-- Clue 1: Hard -->
+              <div class="clue-box unlocked" id="clue-hard-box">
+                <span class="clue-tier-badge tier-hard">Tier 1: Master Cryptic (100 Pts)</span>
+                <p class="clue-text" id="clue-hard-text">Loading mystery clue...</p>
+              </div>
+
+              <!-- Clue 2: Medium -->
+              <div class="clue-box locked" id="clue-medium-box">
+                <span class="clue-tier-badge tier-medium">Tier 2: Biome & Habits (75 Pts)</span>
+                <p class="clue-text" id="clue-medium-text">Locked</p>
+              </div>
+
+              <!-- Clue 3: Easy -->
+              <div class="clue-box locked" id="clue-easy-box">
+                <span class="clue-tier-badge tier-easy">Tier 3: Iconic Signature (50 Pts)</span>
+                <p class="clue-text" id="clue-easy-text">Locked</p>
+              </div>
+
+              <!-- Clue 4: Visual Anagram -->
+              <div class="clue-box locked" id="clue-visual-box">
+                <span class="clue-tier-badge tier-visual">Tier 4: Visual Anagram (25 Pts)</span>
+                <p class="clue-text" id="clue-visual-text">Locked</p>
+              </div>
+            </div>
+
+            <!-- Guess Inputs -->
+            <div id="game-choice-container" class="game-options-grid">
+              <!-- Populated by js/game.js -->
+            </div>
+
+            <div id="game-type-container" class="type-input-group hidden">
+              <input type="text" id="game-type-input" placeholder="Type animal name (e.g., Platypus, Axolotl)..." autocomplete="off">
+              <button class="btn-primary" id="game-type-submit">Submit Guess</button>
+            </div>
+
+            <div class="game-action-row">
+              <button class="btn-clue-reveal" id="game-reveal-clue-btn">
+                <span>💡 Unlock Next Clue (-25 pts)</span>
+              </button>
+              <button class="btn-secondary" id="game-restart-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                🔄 Reset Game
+              </button>
+            </div>
+          </div>
+
+          <!-- Result Reveal Card (Appears after guessing) -->
+          <div id="game-result-card" class="result-reveal-card hidden">
+            <h3 id="result-card-title" class="result-title success">Brilliant!</h3>
+            <span id="result-card-badge" class="result-badge success">+100 Points!</span>
+
+            <div class="result-creature-spotlight">
+              <span id="result-creature-icon" class="result-icon-large">🦆</span>
+              <div class="result-details">
+                <h3 id="result-creature-name">Platypus</h3>
+                <p><em>Scientific Name:</em> <span id="result-creature-scientific">Ornithorhynchus anatinus</span></p>
+                <p><em>Habitat:</em> <span id="result-creature-habitat">Eastern Australia</span></p>
+                <p><em>IUCN Status:</em> <span id="result-creature-status" style="font-weight: 700; color: var(--accent-amber);">Near Threatened</span></p>
+              </div>
+            </div>
+
+            <div class="result-trivia-box">
+              <strong>✨ Incredible Fact:</strong>
+              <p id="result-creature-fact">Under UV light, platypus fur biofluoresces glowing green!</p>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+              <button class="btn-primary" id="game-next-round-btn">
+                <span>Next Mystery Creature →</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 4: MIGRATION & GEOLOGICAL ZONES EXPLORER
+    ======================================================== -->
+    <section id="migration" class="migration-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Planetary Highways</span>
+          <h2 class="section-title">Animal Migration Odyssey</h2>
+          <p class="section-subtitle">
+            From pole-to-pole avian flights and high-altitude Himalayan crossings to trans-Pacific ocean circuits: explore how animals navigate across dynamic geological zones.
+          </p>
+        </div>
+
+        <!-- Interactive Map Layout -->
+        <div class="migration-map-layout">
+          <!-- Left: Map Container -->
+          <div class="map-wrapper">
+            <div class="map-toolbar">
+              <span class="map-toolbar-label">Filter Zone:</span>
+              <div class="filter-pills-group" id="map-zone-filters">
+                <button class="zone-filter-btn active" data-zone="all">All Corridors</button>
+                <button class="zone-filter-btn" data-zone="polar-tundra">Polar Tundra</button>
+                <button class="zone-filter-btn" data-zone="savanna-grasslands">Savannas</button>
+                <button class="zone-filter-btn" data-zone="pelagic-ocean">Pelagic Ocean</button>
+                <button class="zone-filter-btn" data-zone="alpine-montane">High Alpine</button>
+                <button class="zone-filter-btn" data-zone="arid-steppes">Arid Steppes</button>
+              </div>
+            </div>
+
+            <div id="migration-map"></div>
+          </div>
+
+          <!-- Right: Route Details & List -->
+          <div class="routes-inspector-panel">
+            <div class="routes-list-scroll" id="migration-routes-list">
+              <!-- Route items rendered by js/migration-map.js -->
+            </div>
+
+            <div id="migration-route-details">
+              <!-- Detailed active route card -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Deep Dive 1: Why Animals Migrate & Navigation Senses -->
+        <div class="migration-deep-dive">
+          <div>
+            <div style="margin-bottom: 1.5rem;">
+              <span class="section-tag">Evolutionary Forces</span>
+              <h3 style="font-size: 1.75rem;">Why Do Animals Migrate?</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                Migration is not a leisure trek; it is an arduous evolutionary gambit driven by survival imperatives.
+              </p>
+            </div>
+            <div class="drivers-grid" id="migration-drivers-list">
+              <!-- Populated by js/migration-map.js -->
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom: 1.5rem;">
+              <span class="section-tag">Sensory Superpowers</span>
+              <h3 style="font-size: 1.75rem;">How Do They Navigate?</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                Without GPS or compasses, migratory creatures tap into quantum fields, celestial constellations, and infrasound.
+              </p>
+            </div>
+            <div class="senses-grid" id="navigation-senses-list">
+              <!-- Populated by js/migration-map.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Deep Dive 2: Geological Zones Breakdown -->
+        <div id="geology" style="margin-top: 5rem;">
+          <div class="section-header">
+            <span class="section-tag">Biogeography</span>
+            <h2 class="section-title">Geological & Ecological Zones</h2>
+            <p class="section-subtitle">
+              How Earth’s geological biomes shape seasonal survival, food abundance, and animal immigration.
+            </p>
+          </div>
+
+          <div class="zones-grid" id="geological-zones-container">
+            <!-- Populated by js/migration-map.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================
+       FOOTER
+  ======================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="nav-brand">
+          <span class="nav-logo-icon">🐾</span>
+          <span class="nav-brand-text">Kabri <span class="highlight">FaunaSphere</span></span>
+        </div>
+        <p>
+          Dedicated to celebrating the boundless wonder, cognitive brilliance, and extraordinary odysseys of planet Earth’s animal kingdom. Built with love for wildlife enthusiasts and zoology learners worldwide.
+        </p>
+        <p style="font-size: 0.85rem; color: var(--accent-emerald); margin-top: 0.5rem; font-style: italic;">
+          "Until one has loved an animal, a part of one's soul remains unawakened." — Anatole France
+        </p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Explore FaunaSphere</h4>
+        <ul>
+          <li><a href="#facts">Mind-Blowing Facts</a></li>
+          <li><a href="#news">Groundbreaking Discoveries</a></li>
+          <li><a href="#game">Wild Guesser Game</a></li>
+          <li><a href="#migration">Interactive Migration Map</a></li>
+          <li><a href="#geology">Geological Biomes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Science & Hosting</h4>
+        <ul>
+          <li><a href="https://github.com" target="_blank" rel="noopener">GitHub Pages Ready</a></li>
+          <li><a href="https://www.nature.com" target="_blank" rel="noopener">Nature Research Citations</a></li>
+          <li><a href="https://www.iucnredlist.org" target="_blank" rel="noopener">IUCN Red List Data</a></li>
+          <li><a href="https://www.projectceti.org" target="_blank" rel="noopener">Project CETI (Whale AI)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 Kabri FaunaSphere. Open-source wildlife educational project ready for instant GitHub Pages deployment.</p>
+    </div>
+  </footer>
+
+  <!-- Third-party CDN Dependencies (Zero-build, GitHub Pages Friendly) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Application Modules -->
+  <script src="js/audio.js"></script>
+  <script src="js/facts-data.js"></script>
+  <script src="js/news-data.js"></script>
+  <script src="js/migration-data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/migration-map.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
