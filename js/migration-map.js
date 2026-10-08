@@ -13,6 +13,7 @@ class MigrationMapController {
     this.polylineLayers = {};
     this.markerLayers = {};
     this.animationTimer = null;
+    this.tileStyle = 'auto'; // 'auto', 'osm', 'satellite'
     this.currentTileLayer = null;
 
     this.initMap();
@@ -45,10 +46,35 @@ class MigrationMapController {
     this.updateTileLayer();
     this.renderAllRoutes();
 
+    // Leaflet layout fix: Invalidate size multiple times to prevent gray tiles
+    [100, 300, 800, 1500].forEach(delay => {
+      setTimeout(() => {
+        if (this.map) this.map.invalidateSize();
+      }, delay);
+    });
+
+    // Invalidate size as soon as the map section scrolls into view
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && this.map) {
+            this.map.invalidateSize();
+          }
+        });
+      }, { threshold: 0.1 });
+      observer.observe(mapContainer);
+    }
+
     // Map resize trigger on window resize
     window.addEventListener('resize', () => {
       if (this.map) this.map.invalidateSize();
     });
+  }
+
+  setTileStyle(style) {
+    this.tileStyle = style;
+    this.updateTileLayer();
+    if (window.soundCtrl) window.soundCtrl.playPop();
   }
 
   updateTileLayer() {
@@ -59,17 +85,36 @@ class MigrationMapController {
       this.map.removeLayer(this.currentTileLayer);
     }
 
-    const tileUrl = isDark
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+    let tileUrl = '';
+    let attribution = '';
+    let maxZoom = 19;
+    let subdomains = 'abcd';
 
-    const attribution = '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    if (this.tileStyle === 'satellite') {
+      // 100% Free Public Esri World Imagery (No API key required)
+      tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+      attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+      subdomains = '';
+    } else if (this.tileStyle === 'osm') {
+      // 100% Free Public OpenStreetMap Standard (No API key required)
+      tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+      subdomains = 'abc';
+    } else {
+      // CARTO Positron / Dark Matter (No API key required)
+      tileUrl = isDark
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+      attribution = '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    }
 
     this.currentTileLayer = L.tileLayer(tileUrl, {
       attribution: attribution,
-      subdomains: 'abcd',
-      maxZoom: 19
+      subdomains: subdomains || 'abcd',
+      maxZoom: maxZoom
     }).addTo(this.map);
+
+    this.map.invalidateSize();
   }
 
   renderAllRoutes(filterZone = 'all') {

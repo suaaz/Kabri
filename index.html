@@ -366,14 +366,28 @@
           <!-- Left: Map Container -->
           <div class="map-wrapper">
             <div class="map-toolbar">
-              <span class="map-toolbar-label">Filter Zone:</span>
-              <div class="filter-pills-group" id="map-zone-filters">
-                <button class="zone-filter-btn active" data-zone="all">All Corridors</button>
-                <button class="zone-filter-btn" data-zone="polar-tundra">Polar Tundra</button>
-                <button class="zone-filter-btn" data-zone="savanna-grasslands">Savannas</button>
-                <button class="zone-filter-btn" data-zone="pelagic-ocean">Pelagic Ocean</button>
-                <button class="zone-filter-btn" data-zone="alpine-montane">High Alpine</button>
-                <button class="zone-filter-btn" data-zone="arid-steppes">Arid Steppes</button>
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                  <span class="map-toolbar-label">Zone:</span>
+                  <div class="filter-pills-group" id="map-zone-filters">
+                    <button class="zone-filter-btn active" data-zone="all">All Corridors</button>
+                    <button class="zone-filter-btn" data-zone="polar-tundra">Polar Tundra</button>
+                    <button class="zone-filter-btn" data-zone="savanna-grasslands">Savannas</button>
+                    <button class="zone-filter-btn" data-zone="pelagic-ocean">Pelagic Ocean</button>
+                    <button class="zone-filter-btn" data-zone="alpine-montane">High Alpine</button>
+                    <button class="zone-filter-btn" data-zone="arid-steppes">Arid Steppes</button>
+                  </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                  <span class="map-toolbar-label">Layer:</span>
+                  <div class="filter-pills-group" id="map-tile-style-filters">
+                    <button class="category-btn active" onclick="if(window.migrationMapCtrl){window.migrationMapCtrl.setTileStyle('auto'); document.querySelectorAll('#map-tile-style-filters button').forEach(b=>b.classList.remove('active')); this.classList.add('active');}">🗺️ Modern</button>
+                    <button class="category-btn" onclick="if(window.migrationMapCtrl){window.migrationMapCtrl.setTileStyle('satellite'); document.querySelectorAll('#map-tile-style-filters button').forEach(b=>b.classList.remove('active')); this.classList.add('active');}">🛰️ Satellite</button>
+                    <button class="category-btn" onclick="if(window.migrationMapCtrl){window.migrationMapCtrl.setTileStyle('osm'); document.querySelectorAll('#map-tile-style-filters button').forEach(b=>b.classList.remove('active')); this.classList.add('active');}">🌐 OpenStreet</button>
+                  </div>
+                  <span class="map-open-badge" title="Open-source Carto, Esri & OSM tiles require zero API keys">🟢 Zero API Key Required</span>
+                </div>
               </div>
             </div>
 
